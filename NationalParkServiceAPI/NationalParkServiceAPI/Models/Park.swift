@@ -33,9 +33,6 @@ class Park {
         self.url = url
     }
     
-    
-    
-    
 } // End of class
 
 extension Park {
@@ -58,7 +55,6 @@ extension Park {
         self.init(name: name, description: description, parkCode: parkCode, states: states, coordinates: coordinates, directionsInfo: directionsInfo, directionsURL: directionsURL, entranceFees: entranceFees, images: images, activities: activities, url: url)
         
     }
-    
     
 } // End of Extension
 

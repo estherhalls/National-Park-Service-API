@@ -8,6 +8,8 @@
 import UIKit
 
 class ParkDetailViewController: UIViewController {
+    
+    var parkReceiver: Park?
 
     override func viewDidLoad() {
         super.viewDidLoad()
