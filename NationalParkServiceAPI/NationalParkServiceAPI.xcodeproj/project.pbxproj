@@ -13,6 +13,7 @@
 		EB086E8F28EE78F00060D8CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB086E8E28EE78F00060D8CD /* Assets.xcassets */; };
 		EB086EA028EE84A70060D8CD /* Park.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB086E9F28EE84A70060D8CD /* Park.swift */; };
 		EB086EA228EE85BE0060D8CD /* ParkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB086EA128EE85BE0060D8CD /* ParkDetailViewController.swift */; };
+		EB086EA628EF4C840060D8CD /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB086EA528EF4C830060D8CD /* NetworkController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		EB086E9328EE78F00060D8CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB086E9F28EE84A70060D8CD /* Park.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Park.swift; sourceTree = "<group>"; };
 		EB086EA128EE85BE0060D8CD /* ParkDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkDetailViewController.swift; sourceTree = "<group>"; };
+		EB086EA528EF4C830060D8CD /* NetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 		EB086E9E28EE795A0060D8CD /* Model Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				EB086EA528EF4C830060D8CD /* NetworkController.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -186,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB086E8628EE78EE0060D8CD /* AppDelegate.swift in Sources */,
+				EB086EA628EF4C840060D8CD /* NetworkController.swift in Sources */,
 				EB086EA228EE85BE0060D8CD /* ParkDetailViewController.swift in Sources */,
 				EB086EA028EE84A70060D8CD /* Park.swift in Sources */,
 				EB086E8828EE78EE0060D8CD /* SceneDelegate.swift in Sources */,

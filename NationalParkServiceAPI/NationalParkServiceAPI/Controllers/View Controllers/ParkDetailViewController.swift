@@ -14,6 +14,7 @@ class ParkDetailViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+// Found online for displaying image from image URL
 //    let urlYourURL = URL (string: "home_new.png")
 //
 //    avatarImageView.loadurl(url: urlYourURL!)
