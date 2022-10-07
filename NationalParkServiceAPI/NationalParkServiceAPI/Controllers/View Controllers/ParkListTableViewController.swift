@@ -50,11 +50,8 @@ class ParkListTableViewController: UITableViewController {
         // This is where we get the Park the user tapped on
         let parkToSend = tempParks[indexPath.row]
         
-        NetworkController.fetchParkDetails(for: parkToSend) { parkDetails in
-            guard let unwrappedPark = parkDetails else {
-                return }
-            destinationVC.parkReceiver = unwrappedPark
-        }
+            destinationVC.parkReceiver = parkToSend
+        
                 
     }
 

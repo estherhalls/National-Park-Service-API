@@ -14,12 +14,13 @@ class Park {
     let coordinates: String
     let directionsInfo: String
     let directionsURL: String
-    let entranceFees: [String:String]
-    let images: [String:String]
-    let activities: [String:String]
+    let entranceFees: [String]
+    let images: [String]
+    let activities: [String]
     let url: String
     
-    init(name: String, description: String, parkCode: String, states: String, coordinates: String, directionsInfo: String, directionsURL: String, entranceFees: [String : String], images: [String : String], activities: [String : String], url: String) {
+    // Designated Initializer
+    init(name: String, description: String, parkCode: String, states: String, coordinates: String, directionsInfo: String, directionsURL: String, entranceFees: [String], images: [String], activities: [String], url: String) {
         self.name = name
         self.description = description
         self.parkCode = parkCode
@@ -40,23 +41,56 @@ extension Park {
     // Convenience Initializer
     convenience init?(parkDictionary: [String:Any]) {
         guard let name = parkDictionary["fullName"] as? String,
-            let description = parkDictionary["description"] as? String,
-            let parkCode = parkDictionary["parkCode"] as? String,
-            let states = parkDictionary["states"] as? String,
-            let coordinates = parkDictionary["latLong"] as? String,
-            let directionsInfo = parkDictionary["directionsInfo"] as? String,
-            let directionsURL = parkDictionary["directionsURL"] as? String,
-            let entranceFees = parkDictionary["entranceFees"] as? [String:String],
-            let images = parkDictionary["images"] as? [String:String],
-            let activities = parkDictionary["activities"] as? [String:String],
-            let url = parkDictionary["url"] as? String else {
-                return nil }
+              let description = parkDictionary["description"] as? String,
+              let parkCode = parkDictionary["parkCode"] as? String,
+              let states = parkDictionary["states"] as? String,
+              let coordinates = parkDictionary["latLong"] as? String,
+              let directionsInfo = parkDictionary["directionsInfo"] as? String,
+              let directionsURL = parkDictionary["directionsUrl"] as? String,
+              let url = parkDictionary["url"] as? String,
+              let entranceFeesArray = parkDictionary["entranceFees"] as? [[String:Any]],
+              let imagesArray = parkDictionary["images"] as? [[String:Any]],
+              let activitiesArray = parkDictionary["activities"] as? [[String:Any]] else {
+            return nil }
         
-        self.init(name: name, description: description, parkCode: parkCode, states: states, coordinates: coordinates, directionsInfo: directionsInfo, directionsURL: directionsURL, entranceFees: entranceFees, images: images, activities: activities, url: url)
+        // Entrance Fees:
+        //Temp Array
+        var tempFeesArray: [String] = []
+        // Second Level:
+        for feeDictionary in entranceFeesArray {
+            // Third Level
+            guard let deeperFeeDictionary = feeDictionary["entranceFees"] as? [String:String],
+                  // Fourth Level (this must be broken out with tempArray, then appended
+                  let cost = deeperFeeDictionary["cost"] else {return nil}
+//            let description = deeperFeeDictionary["description"],
+//            let title = deeperFeeDictionary["title"] else {return nil}
+            tempFeesArray.append(cost)
+        }
+        
+        // Images Array:
+        var tempImagesArray: [String] = []
+        for imagesDictionary in imagesArray {
+            guard let deeperImagesDictionary = imagesDictionary["images"] as? [String:String],
+                  let imageURL = deeperImagesDictionary["url"] else {return nil}
+            tempImagesArray.append(imageURL)
+        }
+        
+        // Activities Array:
+        var tempActivitiesArray: [String] = []
+        for activitiesDictionary in activitiesArray {
+            guard let deeperActivitiesDictionary = activitiesDictionary["activities"] as? [String:String],
+                  let name = deeperActivitiesDictionary["name"] else {return nil}
+            tempActivitiesArray.append(name)
+                    
+        }
+        
+        
+        self.init(name: name, description: description, parkCode: parkCode, states: states, coordinates: coordinates, directionsInfo: directionsInfo, directionsURL: directionsURL, entranceFees: tempFeesArray, images: tempImagesArray, activities: tempActivitiesArray, url: url)
         
     }
     
 } // End of Extension
+
 
 
 // Found online for displaying image from image URL
