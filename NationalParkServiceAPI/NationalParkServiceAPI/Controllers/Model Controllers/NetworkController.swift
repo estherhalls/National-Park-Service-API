@@ -75,6 +75,7 @@ class NetworkController {
     
     // Network Call to fetch individual park data
     // The URL needs to be baseURL+kParksComponent+queryItems(ApiKey,ApiKeyValue)&(parkCodeKey,parkCodeKeyValue) or finalURL from fetchParks plus additional query item within final component of (parkCodeKey,parkCodeKeyValue)
+    /// If I want to use the URL complete with components and query items found in fetchParks function, I would have had to have this constructed outside of both functions. For another time.
     static func fetchSinglePark(for park: String, completion: @escaping(Park?) -> Void) {
        
         // Step 1: Get URL
