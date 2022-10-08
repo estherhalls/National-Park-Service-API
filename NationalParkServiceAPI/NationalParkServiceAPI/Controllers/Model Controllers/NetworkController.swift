@@ -7,8 +7,8 @@
 
 import UIKit
 
-class NetworkController {
-    
+struct NetworkController {
+
     // MARK: - URL
     // Base URL
     private static let baseURL = "https://developer.nps.gov/api/v1"
@@ -139,4 +139,4 @@ class NetworkController {
         }.resume()
     }
     
-} // End of Class
+} // End of Struct

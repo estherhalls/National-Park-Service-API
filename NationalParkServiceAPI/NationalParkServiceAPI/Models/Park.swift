@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class Park {
+class Park: Codable {
     let name: String
     let description: String
     let parkCode: String
@@ -18,9 +18,10 @@ class Park {
     let images: [String]
     let activities: [String]
     let url: String
+    var isFavorite: Bool
     
     // Designated Initializer
-    init(name: String, description: String, parkCode: String, states: String, coordinates: String, directionsInfo: String, directionsURL: String, entranceFees: [String], images: [String], activities: [String], url: String) {
+    init(name: String, description: String, parkCode: String, states: String, coordinates: String, directionsInfo: String, directionsURL: String, entranceFees: [String], images: [String], activities: [String], url: String, isFavorite: Bool) {
         self.name = name
         self.description = description
         self.parkCode = parkCode
@@ -32,6 +33,7 @@ class Park {
         self.images = images
         self.activities = activities
         self.url = url
+        self.isFavorite = isFavorite
     }
     
 } // End of class
@@ -62,8 +64,8 @@ extension Park {
             guard let deeperFeeDictionary = feeDictionary["entranceFees"] as? [String:String],
                   // Fourth Level (this must be broken out with tempArray, then appended
                   let cost = deeperFeeDictionary["cost"] else {return nil}
-//            let description = deeperFeeDictionary["description"],
-//            let title = deeperFeeDictionary["title"] else {return nil}
+            //            let description = deeperFeeDictionary["description"],
+            //            let title = deeperFeeDictionary["title"] else {return nil}
             tempFeesArray.append(cost)
         }
         
@@ -81,11 +83,12 @@ extension Park {
             guard let deeperActivitiesDictionary = activitiesDictionary["activities"] as? [String:String],
                   let name = deeperActivitiesDictionary["name"] else {return nil}
             tempActivitiesArray.append(name)
-                    
+            
         }
+        // equal to true if the array of parks contains a park code
+        let isFavorite = ParkController.sharedInstance.parks.contains(parkCode)
         
-        
-        self.init(name: name, description: description, parkCode: parkCode, states: states, coordinates: coordinates, directionsInfo: directionsInfo, directionsURL: directionsURL, entranceFees: tempFeesArray, images: tempImagesArray, activities: tempActivitiesArray, url: url)
+        self.init(name: name, description: description, parkCode: parkCode, states: states, coordinates: coordinates, directionsInfo: directionsInfo, directionsURL: directionsURL, entranceFees: tempFeesArray, images: tempImagesArray, activities: tempActivitiesArray, url: url, isFavorite: isFavorite)
         
     }
     

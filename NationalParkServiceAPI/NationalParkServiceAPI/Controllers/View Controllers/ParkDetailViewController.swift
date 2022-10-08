@@ -17,10 +17,18 @@ class ParkDetailViewController: UIViewController {
     @IBOutlet weak var parkFirstImage: UIImageView!
     @IBOutlet weak var favoriteButton: UIBarButtonItem!
     
+    // Reciever Property
     var parkReceiver: Park?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    // MARK: - Lifecycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateViews()
+    }
+    // MARK: Helper Functions
+    func updateViews() {
+        guard let park = park else {return}
+        
 
         // Do any additional setup after loading the view.
     }

@@ -8,14 +8,22 @@
 import UIKit
 
 class ParkListTableViewController: UITableViewController {
+    
+    // MARK: - Outlets
     @IBOutlet weak var favoriteFilterSwitch: UISwitch!
     
     // Placeholder property
     var tempParks: [Park] = []
-
+    var parkReciever: Park?
+    
+    private var filterFavorites: [Park]{
+        return favoriteFilterSwitch.isOn ? parkReciever?.filter { $0.isFavorite}
+        ?? [] : parkReciever? ?? []
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         NetworkController.fetchParks { parks in
             guard let parks = parks else {
                 return
@@ -26,19 +34,20 @@ class ParkListTableViewController: UITableViewController {
             }
         }
     }
-
+    // MARK: - Lifecycle Methods
+    
+    
     // MARK: - Table view data source
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return tempParks.count
     }
-
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "parkCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "parkCell", for: indexPath) as? ParkTableViewCell else {return UITableViewCell()}
         let park = tempParks[indexPath.row]
-        cell.textLabel?.text = park.name
+        cell.updateViews(park: park)
+        cell.delegate = self
         return cell
     }
     
@@ -51,11 +60,11 @@ class ParkListTableViewController: UITableViewController {
         // This is where we get the Park the user tapped on
         let parkToSend = tempParks[indexPath.row]
         
-            destinationVC.parkReceiver = parkToSend
+        destinationVC.parkReceiver = parkToSend
         
-                
+        
     }
-
+    
     @IBAction func favoriteFilterSwitchTapped(_ sender: Any) {
     }
 } // End of Class

@@ -16,6 +16,7 @@
 		EB086EA628EF4C840060D8CD /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB086EA528EF4C830060D8CD /* NetworkController.swift */; };
 		EB086EA828EF5BDF0060D8CD /* ParkListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB086EA728EF5BDF0060D8CD /* ParkListTableViewController.swift */; };
 		EB086EB028F10C1F0060D8CD /* ParkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB086EAF28F10C1F0060D8CD /* ParkTableViewCell.swift */; };
+		EB086EB228F1215C0060D8CD /* ParkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB086EB128F1215C0060D8CD /* ParkController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		EB086EA528EF4C830060D8CD /* NetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
 		EB086EA728EF5BDF0060D8CD /* ParkListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkListTableViewController.swift; sourceTree = "<group>"; };
 		EB086EAF28F10C1F0060D8CD /* ParkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkTableViewCell.swift; sourceTree = "<group>"; };
+		EB086EB128F1215C0060D8CD /* ParkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				EB086EA528EF4C830060D8CD /* NetworkController.swift */,
+				EB086EB128F1215C0060D8CD /* ParkController.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB086E8628EE78EE0060D8CD /* AppDelegate.swift in Sources */,
+				EB086EB228F1215C0060D8CD /* ParkController.swift in Sources */,
 				EB086EA628EF4C840060D8CD /* NetworkController.swift in Sources */,
 				EB086EA228EE85BE0060D8CD /* ParkDetailViewController.swift in Sources */,
 				EB086EB028F10C1F0060D8CD /* ParkTableViewCell.swift in Sources */,
