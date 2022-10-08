@@ -8,6 +8,14 @@
 import UIKit
 
 class ParkDetailViewController: UIViewController {
+    @IBOutlet weak var parkNameLabel: UILabel!
+    @IBOutlet weak var parkStateLabel: UILabel!
+    @IBOutlet weak var parkCoordinatesLabel: UILabel!
+    @IBOutlet weak var parkDescriptionTextView: UITextView!
+    @IBOutlet weak var entranceFeeLabel: UILabel!
+    @IBOutlet weak var activitiesLabel: UILabel!
+    @IBOutlet weak var parkFirstImage: UIImageView!
+    @IBOutlet weak var favoriteButton: UIBarButtonItem!
     
     var parkReceiver: Park?
 
@@ -31,4 +39,12 @@ class ParkDetailViewController: UIViewController {
     }
     */
 
+    @IBAction func isFavoriteButtonTapped(_ sender: Any) {
+    }
+    @IBAction func parkWebsiteURLButtonTapped(_ sender: Any) {
+    }
+    @IBAction func previousParkButtonTapped(_ sender: Any) {
+    }
+    @IBAction func nextParkButtonTapped(_ sender: Any) {
+    }
 }

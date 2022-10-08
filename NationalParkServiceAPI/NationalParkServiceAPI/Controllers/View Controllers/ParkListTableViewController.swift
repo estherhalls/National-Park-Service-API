@@ -8,6 +8,7 @@
 import UIKit
 
 class ParkListTableViewController: UITableViewController {
+    @IBOutlet weak var favoriteFilterSwitch: UISwitch!
     
     // Placeholder property
     var tempParks: [Park] = []
@@ -55,4 +56,6 @@ class ParkListTableViewController: UITableViewController {
                 
     }
 
+    @IBAction func favoriteFilterSwitchTapped(_ sender: Any) {
+    }
 } // End of Class
