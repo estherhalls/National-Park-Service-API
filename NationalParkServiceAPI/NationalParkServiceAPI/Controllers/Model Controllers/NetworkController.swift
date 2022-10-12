@@ -122,19 +122,25 @@ struct NetworkController {
     
     // Getting images from the internet requires network call with completion handler
     /// Remember to Import UIKit at top of file
-    func fetchImage(for imageURL: String, completion: @escaping (UIImage?) -> Void) {
+    static func fetchImage(for parkImageURL: String, completion: @escaping (Result<UIImage, ResultError>) -> Void) {
         // Step 1 - Construct URL
-        guard let url = URL(string: imageURL) else {completion(nil); return}
+        guard let url = URL(string: parkImageURL) else {return}
         
         //Step 2 - DataTask
         URLSession.shared.dataTask(with: url) { data, _, error in
             if let error {
-                print("🤬🤬🤬 There was an error with the image data task", error.localizedDescription)
-                completion(nil); return
+                print("🤬🤬🤬 There was an error with the image data task: \(error.localizedDescription)")
+                completion(.failure(.thrownError(error)))
             }
-            guard let imageData = data else {completion(nil); return}
-            let image = UIImage(data: imageData)
-            completion(image)
+            ///guard let needs to return
+            guard let imageData = data else {
+                completion(.failure(.noData))
+                return}
+            guard let parkImage = UIImage(data: imageData) else {
+                completion(.failure(.unableToDecode))
+                return
+            }
+            completion(.success(parkImage))
             
         }.resume()
     }

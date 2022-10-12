@@ -13,29 +13,32 @@ struct TopLevelDictionary: Decodable {
 
 struct ParkData: Decodable {
     private enum CodingKeys: String, CodingKey {
-        case fullName
+        case name = "fullName"
         case parkCode
         case description
         case coordinates = "latLong"
         case activities
-        case states
         case entranceFees
         case addresses
         case images
+        case url
     }
-    let fullName: String
+    let name: String
     let parkCode: String
     let description: String
     let coordinates: String
     let activities: [ActivitiesList]
-    let states: String
     let entranceFees: [FeeDetails]
     let addresses: [ParkAddress]
     let images: [Image]
+    let url: String
 }
 
 struct ActivitiesList: Decodable {
-    let name: String
+    private enum CodingKeys: String, CodingKey {
+        case activityName = "name"
+    }
+    let activityName: String
 }
 
 struct FeeDetails: Decodable {
@@ -50,14 +53,9 @@ struct FeeDetails: Decodable {
 }
 
 struct ParkAddress: Decodable {
-    private enum CodingKeys: String, CodingKey {
-        case city
-        case stateCode
-        case zip = "postalCode"
-    }
     let city: String
     let stateCode: String
-    let zip: String
+
 }
 
 struct Image: Decodable {
