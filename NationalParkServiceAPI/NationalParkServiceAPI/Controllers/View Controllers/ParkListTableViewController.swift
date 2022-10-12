@@ -9,26 +9,26 @@ import UIKit
 
 class ParkListTableViewController: UITableViewController {
     
-    // MARK: - Outlets
-    @IBOutlet weak var favoriteFilterSwitch: UISwitch!
-    
+   
     // Placeholder property
-    var tempParks: [Park] = []
-    var parkReciever: Park?
-    
-    private var filterFavorites: [Park]{
-        return favoriteFilterSwitch.isOn ? parkReciever?.filter { $0.isFavorite}
-        ?? [] : parkReciever? ?? []
-    }
+    var topLevel: TopLevelDictionary?
+    var parksArray: [ParkData] = []
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        NetworkController.fetchParks { parks in
-            guard let parks = parks else {return}
-            DispatchQueue.main.async {
-                self.tempParks = parks
-                self.tableView.reloadData()
+        
+        NetworkController.fetchParks { [weak self]
+            result in
+            switch result {
+            case .success(let topLevel):
+                self?.topLevel = topLevel
+                self?.parksArray = topLevel.data
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                print("There was an error!", error.errorDescription!)
             }
         }
     }
@@ -37,38 +37,33 @@ class ParkListTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tempParks.count
+        return parksArray.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "parkCell", for: indexPath) as? ParkTableViewCell else {return UITableViewCell()}
-        let park = tempParks[indexPath.row]
+        let park = parksArray[indexPath.row]
         cell.updateViews()
-        cell.delegate = self
         return cell
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "toDetailVC",
               let destinationVC = segue.destination as? ParkDetailViewController,
-              let indexPath = tableView.indexPathForSelectedRow else {return}
+              let selectedRow = tableView.indexPathForSelectedRow?.row else {return}
         // This is where we get the Park the user tapped on
-        let parkToSend = tempParks[indexPath.row]
+        let parkToSend = parks[selectedRow]
         // Fetch individual park
-        NetworkController.fetchSinglePark(for: parkToSend) { park in
-            guard let unwrappedPark = park else {return}
-            destinationVC.parkReceiver = parkToSend
+        NetworkController.fetchSinglePark(for: parkToSend.parkCode) { result in
+            switch result {
+            case .success(let park):
+                DispatchQueue.main.async {
+                    destinationVC.parkData = park
+                }
+            case .failure(let error):
+                print("There was an error!", error.errorDescription!)
+            }
         }
     }
-    @IBAction func favoriteFilterSwitchTapped(_ sender: Any) {
-    }
-} // End of Class
 
-extension ParkListTableViewController: ParkTableViewCellDelegate {
-    func toggleFavoriteButtonTapped(cell: ParkTableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else {return}
-        let park = tempParks[indexPath.row]
-        ParkController.toggleFavorite(park: park)
-        cell.updateViews()
-    }
-}
+} // End of Class

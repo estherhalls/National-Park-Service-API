@@ -99,6 +99,13 @@ class ParkDetailViewController: UIViewController {
 // MARK: - Extensions
 extension ParkDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return
+        return parkData?.activities.count ?? 0
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "activityCell", for: indexPath)
+        guard let park = parkData else {return UITableViewCell() }
+        let activity = park.activities[indexPath.row]
+        cell.textLabel?.text = activity.activityName
+        return cell
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 enum ResultError: LocalizedError {
     
-    case invalidURL(URL)
+    case invalidURL(String)
     case thrownError(Error)
     case noData
     case unableToDecode

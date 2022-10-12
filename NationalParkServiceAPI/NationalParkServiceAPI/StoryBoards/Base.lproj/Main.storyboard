@@ -188,7 +188,7 @@
                                 <rect key="frame" x="104" y="541" width="266" height="128"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="tgI-qH-Hy6" style="IBUITableViewCellStyleDefault" id="TJS-8f-Inb">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="activityCell" textLabel="tgI-qH-Hy6" style="IBUITableViewCellStyleDefault" id="TJS-8f-Inb">
                                         <rect key="frame" x="0.0" y="50" width="266" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TJS-8f-Inb" id="jDR-kH-B3h">
