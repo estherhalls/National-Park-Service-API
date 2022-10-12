@@ -21,20 +21,17 @@ class ParkListTableViewController: UITableViewController {
         ?? [] : parkReciever? ?? []
     }
     
+    // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         NetworkController.fetchParks { parks in
-            guard let parks = parks else {
-                return
-            }
+            guard let parks = parks else {return}
             DispatchQueue.main.async {
                 self.tempParks = parks
                 self.tableView.reloadData()
             }
         }
     }
-    // MARK: - Lifecycle Methods
     
     
     // MARK: - Table view data source
@@ -46,7 +43,7 @@ class ParkListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "parkCell", for: indexPath) as? ParkTableViewCell else {return UITableViewCell()}
         let park = tempParks[indexPath.row]
-        cell.updateViews(park: park)
+        cell.updateViews()
         cell.delegate = self
         return cell
     }
@@ -54,17 +51,24 @@ class ParkListTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "toDetailVC",
               let destinationVC = segue.destination as? ParkDetailViewController,
-              let indexPath = tableView.indexPathForSelectedRow else {
-            return }
-        
+              let indexPath = tableView.indexPathForSelectedRow else {return}
         // This is where we get the Park the user tapped on
         let parkToSend = tempParks[indexPath.row]
-        
-        destinationVC.parkReceiver = parkToSend
-        
-        
+        // Fetch individual park
+        NetworkController.fetchSinglePark(for: parkToSend) { park in
+            guard let unwrappedPark = park else {return}
+            destinationVC.parkReceiver = parkToSend
+        }
     }
-    
     @IBAction func favoriteFilterSwitchTapped(_ sender: Any) {
     }
 } // End of Class
+
+extension ParkListTableViewController: ParkTableViewCellDelegate {
+    func toggleFavoriteButtonTapped(cell: ParkTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else {return}
+        let park = tempParks[indexPath.row]
+        ParkController.toggleFavorite(park: park)
+        cell.updateViews()
+    }
+}

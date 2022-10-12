@@ -19,19 +19,31 @@ class ParkDetailViewController: UIViewController {
     
     // Reciever Property
     var parkReceiver: Park?
-
+  
     // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateViews()
     }
+    
     // MARK: Helper Functions
     func updateViews() {
-        guard let park = park else {return}
-        
-
-        // Do any additional setup after loading the view.
+        guard let park = parkReceiver else {return}
+        parkNameLabel.text = park.name
+        parkStateLabel.text = park.states
+        parkCoordinatesLabel.text = park.coordinates
+        parkDescriptionTextView.text = park.description
+        entranceFeeLabel.accessibilityUserInputLabels = park.entranceFees
+        activitiesLabel.accessibilityUserInputLabels = park.activities
     }
+    
+    func updateFavoriteButton() {
+        guard let park = parkReceiver else {return}
+        let favoriteImageName = park.isFavorite ? "heart.fill" : "heart"
+        let favoriteImage = UIImage(systemName: favoriteImageName)
+        favoriteButton.image = favoriteImage
+    }
+    
 // Found online for displaying image from image URL
 //    let urlYourURL = URL (string: "home_new.png")
 //
@@ -48,6 +60,9 @@ class ParkDetailViewController: UIViewController {
     */
 
     @IBAction func isFavoriteButtonTapped(_ sender: Any) {
+        guard let park = parkReceiver else {return}
+        ParkController.toggleFavorite(park:park)
+        updateFavoriteButton()
     }
     @IBAction func parkWebsiteURLButtonTapped(_ sender: Any) {
     }

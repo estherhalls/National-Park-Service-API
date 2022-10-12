@@ -9,20 +9,21 @@ import Foundation
 
 class ParkController {
     
+    init() {
+        loadStatus()
+    }
+    
     // MARK: - Singleton
     static let sharedInstance = ParkController()
     
     // MARK: - SOT
     private(set) var parks: [String] = []
     
-    init() {
-        loadStatus()
-    }
     
     // Helper Function:
     func toggleFavorite(park: Park) {
         park.isFavorite.toggle()
-        self.saveStatus()
+//        self.saveStatus()
     }
     
     // MARK: - Save to Persistent Storage
@@ -47,7 +48,7 @@ class ParkController {
         guard let loadLocation = fileURL else { return }
         do {
             let data = try Data(contentsOf: loadLocation)
-            let decodedGroups = try JSONDecoder().decode([Park].self, from: data)
+            let decodedGroups = try JSONDecoder().decode([String].self, from: data)
             self.parks = decodedGroups
         } catch let error {
             print(error)
