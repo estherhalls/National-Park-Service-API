@@ -41,20 +41,22 @@ class ParkListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "parkCell", for: indexPath) as? ParkTableViewCell else {return UITableViewCell()}
+       let cell = tableView.dequeueReusableCell(withIdentifier: "parkCell", for: indexPath)
         let park = parksArray[indexPath.row]
-        cell.updateViews()
+        cell.textLabel?.text = "\(park.name)"
+        cell.detailTextLabel?.text = "\(park.states)"
+      
         return cell
     }
-    
+    // MARK: - NAVIGATION
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "toDetailVC",
               let destinationVC = segue.destination as? ParkDetailViewController,
-              let selectedRow = tableView.indexPathForSelectedRow?.row else {return}
+              let indexPath = tableView.indexPathForSelectedRow else {return}
         // This is where we get the Park the user tapped on
-        let parkToSend = parks[selectedRow]
+        let parkToSend = self.parksArray[indexPath.row]
         // Fetch individual park
-        NetworkController.fetchSinglePark(for: parkToSend.parkCode) { result in
+        NetworkController.fetchSinglePark(with: parkToSend.parkCode){ result in
             switch result {
             case .success(let park):
                 DispatchQueue.main.async {

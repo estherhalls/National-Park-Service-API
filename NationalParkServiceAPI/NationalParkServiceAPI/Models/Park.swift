@@ -22,6 +22,7 @@ struct ParkData: Decodable {
         case addresses
         case images
         case url
+        case states
     }
     let name: String
     let parkCode: String
@@ -32,6 +33,7 @@ struct ParkData: Decodable {
     let addresses: [ParkAddress]
     let images: [Image]
     let url: String
+    let states: String
 }
 
 struct ActivitiesList: Decodable {

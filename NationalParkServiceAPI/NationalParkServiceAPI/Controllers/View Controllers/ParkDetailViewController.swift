@@ -19,6 +19,14 @@ class ParkDetailViewController: UIViewController {
     @IBOutlet weak var parkFirstImage: UIImageView!
     @IBOutlet weak var parkActivitiesTableView: UITableView!
     
+    
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        parkActivitiesTableView.dataSource = self
+ 
+    }
+    
     // Reciever Property
     
     var parkData: ParkData? {
@@ -32,19 +40,7 @@ class ParkDetailViewController: UIViewController {
     var images: [Image] = []
     
     
-    // MARK: - Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupTable()
-    }
-    
-    
     // MARK: - Helper Functions
-    func setupTable() {
-        parkActivitiesTableView.delegate = self
-        parkActivitiesTableView.dataSource = self
-    }
-    
     func updateViews() {
         guard let park = parkData else {return}
         let image = images[0]
@@ -97,7 +93,7 @@ class ParkDetailViewController: UIViewController {
 }
 
 // MARK: - Extensions
-extension ParkDetailViewController: UITableViewDelegate, UITableViewDataSource {
+extension ParkDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return parkData?.activities.count ?? 0
     }

@@ -17,40 +17,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="parkCell" id="W7I-P7-g25" customClass="ParkTableViewCell" customModule="NationalParkServiceAPI" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="50" width="390" height="55.666667938232422"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="parkCell" textLabel="dGR-gQ-R5i" detailTextLabel="S5j-n3-21I" style="IBUITableViewCellStyleSubtitle" id="W7I-P7-g25">
+                                <rect key="frame" x="0.0" y="50" width="390" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="W7I-P7-g25" id="D9Y-KG-cOB">
-                                    <rect key="frame" x="0.0" y="0.0" width="359.66666666666669" height="55.666667938232422"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="359.66666666666669" height="43.666667938232422"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="ey3-6K-OpT">
-                                            <rect key="frame" x="20" y="8" width="57" height="39.666666666666664"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="(Name)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fN4-rF-gcm">
-                                                    <rect key="frame" x="0.0" y="0.0" width="57" height="20.333333333333332"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="(State)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kAB-8R-lb2">
-                                                    <rect key="frame" x="0.0" y="21.333333333333336" width="57" height="18.333333333333336"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </stackView>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dGR-gQ-R5i">
+                                            <rect key="frame" x="20" y="6.0000000000000009" width="25" height="14.333333333333334"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S5j-n3-21I">
+                                            <rect key="frame" x="19.999999999999996" y="22.333333333333336" width="43.666666666666664" height="14.333333333333334"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstItem="ey3-6K-OpT" firstAttribute="leading" secondItem="D9Y-KG-cOB" secondAttribute="leading" constant="20" id="Iqg-L2-gky"/>
-                                        <constraint firstAttribute="bottom" secondItem="ey3-6K-OpT" secondAttribute="bottom" constant="8" id="QoN-nk-yy4"/>
-                                        <constraint firstItem="ey3-6K-OpT" firstAttribute="top" secondItem="D9Y-KG-cOB" secondAttribute="top" constant="8" id="dqi-en-4xk"/>
-                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="parkNameLabel" destination="fN4-rF-gcm" id="Vje-pC-bfm"/>
-                                    <outlet property="parkStateLabel" destination="kAB-8R-lb2" id="A9C-mC-cGl"/>
                                     <segue destination="IBv-VQ-78l" kind="show" identifier="toDetailVC" id="xpn-VQ-JDD"/>
                                 </connections>
                             </tableViewCell>
@@ -273,9 +263,6 @@
         <image name="arrow.forward.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
