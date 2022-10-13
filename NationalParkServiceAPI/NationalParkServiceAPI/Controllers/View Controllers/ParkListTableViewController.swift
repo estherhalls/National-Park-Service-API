@@ -48,7 +48,10 @@ class ParkListTableViewController: UITableViewController {
         
         return cell
     }
-    // MARK: - NAVIGATION
+    
+ 
+    
+    // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetailVC",
            let destinationVC = segue.destination as? ParkDetailViewController {

@@ -18,6 +18,8 @@ struct NetworkController {
     private static let kAPIKeyKey = "api_key"
     private static let kAPIKeyValue = "zo5biGMft4UFbCYYBK8TCqv9AXKjqlKEjFTaKrxS"
     private static let kParkCodeKey = "parkCode"
+    private static let kLimitKey = "limit"
+    private static let kLimitValue = "500"
     
     static func fetchParks(completion: @escaping (Result<TopLevelDictionary, ResultError>) -> Void) {
         // Step 1: Get URL
@@ -31,8 +33,9 @@ struct NetworkController {
         var urlComponents = URLComponents(url: parksURL, resolvingAgainstBaseURL: true)
         
         /// Query item
-        let queryItem = URLQueryItem(name: kAPIKeyKey, value: kAPIKeyValue)
-        urlComponents?.queryItems = [queryItem]
+        let apiKeyQuery = URLQueryItem(name: kAPIKeyKey, value: kAPIKeyValue)
+        let limitQuery = URLQueryItem(name: kLimitKey, value: kLimitValue)
+        urlComponents?.queryItems = [apiKeyQuery, limitQuery]
         
         guard let finalURL = urlComponents?.url else {
             completion(.failure(.invalidURL(baseURLString)))

@@ -20,12 +20,13 @@ class ParkDetailViewController: UIViewController {
     @IBOutlet weak var parkFirstImage: UIImageView!
     @IBOutlet weak var parkActivitiesTableView: UITableView!
     
+    var activities: [ActivitiesList] = []
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         parkActivitiesTableView.dataSource = self
- 
+        parkActivitiesTableView.delegate = self
     }
     
     // Reciever Property
@@ -39,26 +40,29 @@ class ParkDetailViewController: UIViewController {
  
     
     // MARK: - Helper Functions
+    
+    func hasCost() {
+        guard let park = parkData else {return}
+        let fees = park.entranceFees[0]
+        if fees.cost == "0.00" {
+            cost = "Free"
+        } else {
+            cost = "$\(fees.cost)"
+        }
+    }
+    
     func updateViews() {
         guard let park = parkData else {return}
         let image = park.images[0]
         let address = park.addresses[0]
-        let fees = park.entranceFees[0]
-        
-        func hasCost() {
-            if fees.cost == "0.00" {
-                cost = "Free"
-            } else {
-                cost = "$\(fees.cost)"
-            }
-        }
         
         NetworkController.fetchImage(for: image.imageURL) { [weak self] result in
             switch result {
             case.success(let image):
                 
                 DispatchQueue.main.async {
-                  hasCost()
+                    self?.hasCost()
+                    
                     self?.parkNameLabel.text = park.shortName
                     self?.parkCityNameLabel.text = address.city
                     self?.parkStateLabel.text = address.stateCode
@@ -66,6 +70,9 @@ class ParkDetailViewController: UIViewController {
                     self?.parkDescriptionTextView.text = park.description
                     self?.entranceFeeLabel.text = self?.cost
                     self?.parkFirstImage.image = image
+                    self?.activities = park.activities
+            
+                    self?.parkActivitiesTableView.reloadData()
                 }
             case .failure(let error):
                 print("There was an error!", error.errorDescription!)
@@ -90,26 +97,29 @@ class ParkDetailViewController: UIViewController {
      }
      */
     
-
-    @IBAction func parkWebsiteURLButtonTapped(_ sender: Any) {
-    }
+// MARK: - Actions
+    /// I want to navigate forward and back based on the current park placement on the index defined on the table view controller
+    /// I will need to inform this detail view of that index and current position, and what to do at the beginning and end of index (loop back to beginning? end and stop showing the button for that direction in the index?)
+    /// each button will need updateViews function at the end to repopulate with new park data
+    
     @IBAction func previousParkButtonTapped(_ sender: Any) {
+        
     }
     @IBAction func nextParkButtonTapped(_ sender: Any) {
     }
 }
 
 // MARK: - Extensions
-extension ParkDetailViewController: UITableViewDataSource {
+extension ParkDetailViewController: UITableViewDataSource, UITableViewDelegate {
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return parkData?.activities.count ?? 0
+        return activities.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "activityCell", for: indexPath)
-        guard let park = parkData else {return UITableViewCell() }
-        let activity = park.activities[indexPath.row].activityName
+        let activity = activities[indexPath.row].activityName
         cell.textLabel?.text = activity
         return cell
     }
