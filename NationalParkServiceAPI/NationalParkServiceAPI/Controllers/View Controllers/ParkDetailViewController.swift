@@ -10,6 +10,7 @@ import UIKit
 // Individual park information on this view
 
 class ParkDetailViewController: UIViewController {
+    
     @IBOutlet weak var parkCityNameLabel: UILabel!
     @IBOutlet weak var parkNameLabel: UILabel!
     @IBOutlet weak var parkStateLabel: UILabel!
@@ -35,17 +36,12 @@ class ParkDetailViewController: UIViewController {
         }
     }
     
-    var fees: [FeeDetails] = []
-    var addresses: [ParkAddress] = []
-    var images: [Image] = []
-    
-    
     // MARK: - Helper Functions
     func updateViews() {
         guard let park = parkData else {return}
-        let image = images[0]
-        let address = addresses[0]
-        let fees = fees[0]
+        let image = park.images[0]
+        let address = park.addresses[0]
+        let fees = park.entranceFees[0]
         
         NetworkController.fetchImage(for: image.imageURL) { [weak self] result in
             switch result {

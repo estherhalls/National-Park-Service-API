@@ -69,12 +69,14 @@ struct NetworkController {
     /// If I want to use the URL complete with components and query items found in fetchParks function, I would have had to have this constructed outside of both functions. For another time.
     static func fetchSinglePark(with parkCodeComponent: String, completion: @escaping(Result<ParkData, ResultError>) -> Void) {
         // Step 1: Get URL
+        // failable initializer has to be unwrapped (guard let)
         guard let baseURL = URL(string: baseURLString) else {
             completion(.failure(.invalidURL(baseURLString)))
             return
         }
         // Compose final URL
         let parksURL = baseURL.appendingPathComponent(kParksComponent)
+        
         /// Add Query items with URLComponent Struct
         var urlComponents = URLComponents(url: parksURL, resolvingAgainstBaseURL: true)
         
@@ -104,8 +106,8 @@ struct NetworkController {
             }
             // Convert to JSON (do,try,catch)
             do {
-                let park = try JSONDecoder().decode(ParkData.self, from: data)
-                completion(.success(park))
+                let park = try JSONDecoder().decode(TopLevelDictionary.self, from: data)
+                completion(.success(park.data[0]))
             } catch {
                 completion(.failure(.unableToDecode)); return
             }

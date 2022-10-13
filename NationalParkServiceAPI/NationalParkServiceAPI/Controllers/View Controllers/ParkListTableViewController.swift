@@ -9,7 +9,7 @@ import UIKit
 
 class ParkListTableViewController: UITableViewController {
     
-   
+    
     // Placeholder property
     var topLevel: TopLevelDictionary?
     var parksArray: [ParkData] = []
@@ -41,31 +41,33 @@ class ParkListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       let cell = tableView.dequeueReusableCell(withIdentifier: "parkCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "parkCell", for: indexPath)
         let park = parksArray[indexPath.row]
         cell.textLabel?.text = "\(park.name)"
         cell.detailTextLabel?.text = "\(park.states)"
-      
+        
         return cell
     }
     // MARK: - NAVIGATION
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "toDetailVC",
-              let destinationVC = segue.destination as? ParkDetailViewController,
-              let indexPath = tableView.indexPathForSelectedRow else {return}
-        // This is where we get the Park the user tapped on
-        let parkToSend = self.parksArray[indexPath.row]
-        // Fetch individual park
-        NetworkController.fetchSinglePark(with: parkToSend.parkCode){ result in
-            switch result {
-            case .success(let park):
-                DispatchQueue.main.async {
-                    destinationVC.parkData = park
+        if segue.identifier == "toDetailVC",
+           let destinationVC = segue.destination as? ParkDetailViewController {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                // This is where we get the Park the user tapped on
+                let parkToSend = self.parksArray[indexPath.row]
+                // Fetch individual park
+                NetworkController.fetchSinglePark(with: parkToSend.parkCode){ result in
+                    switch result {
+                    case .success(let park):
+                        DispatchQueue.main.async {
+                            destinationVC.parkData = park
+                        }
+                    case .failure(let error):
+                        print("There was an error!", error.errorDescription!)
+                    }
                 }
-            case .failure(let error):
-                print("There was an error!", error.errorDescription!)
             }
         }
     }
-
+    
 } // End of Class
