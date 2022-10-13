@@ -43,7 +43,7 @@ class ParkListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "parkCell", for: indexPath)
         let park = parksArray[indexPath.row]
-        cell.textLabel?.text = "\(park.name)"
+        cell.textLabel?.text = "\(park.fullName)"
         cell.detailTextLabel?.text = "\(park.states)"
         
         return cell

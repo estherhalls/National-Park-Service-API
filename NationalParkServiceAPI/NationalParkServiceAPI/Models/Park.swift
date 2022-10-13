@@ -13,7 +13,8 @@ struct TopLevelDictionary: Decodable {
 
 struct ParkData: Decodable {
     private enum CodingKeys: String, CodingKey {
-        case name = "fullName"
+        case fullName
+        case shortName = "name"
         case parkCode
         case description
         case coordinates = "latLong"
@@ -24,7 +25,8 @@ struct ParkData: Decodable {
         case url
         case states
     }
-    let name: String
+    let fullName: String
+    let shortName: String
     let parkCode: String
     let description: String
     let coordinates: String

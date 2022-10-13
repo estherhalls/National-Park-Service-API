@@ -35,6 +35,8 @@ class ParkDetailViewController: UIViewController {
             updateViews()
         }
     }
+    var cost: String = ""
+ 
     
     // MARK: - Helper Functions
     func updateViews() {
@@ -43,17 +45,26 @@ class ParkDetailViewController: UIViewController {
         let address = park.addresses[0]
         let fees = park.entranceFees[0]
         
+        func hasCost() {
+            if fees.cost == "0.00" {
+                cost = "Free"
+            } else {
+                cost = "$\(fees.cost)"
+            }
+        }
+        
         NetworkController.fetchImage(for: image.imageURL) { [weak self] result in
             switch result {
             case.success(let image):
                 
                 DispatchQueue.main.async {
-                    self?.parkNameLabel.text = park.name
+                  hasCost()
+                    self?.parkNameLabel.text = park.shortName
                     self?.parkCityNameLabel.text = address.city
                     self?.parkStateLabel.text = address.stateCode
                     self?.parkCoordinatesLabel.text = park.coordinates
                     self?.parkDescriptionTextView.text = park.description
-                    self?.entranceFeeLabel.text = fees.cost
+                    self?.entranceFeeLabel.text = self?.cost
                     self?.parkFirstImage.image = image
                 }
             case .failure(let error):
@@ -90,14 +101,16 @@ class ParkDetailViewController: UIViewController {
 
 // MARK: - Extensions
 extension ParkDetailViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return parkData?.activities.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "activityCell", for: indexPath)
         guard let park = parkData else {return UITableViewCell() }
-        let activity = park.activities[indexPath.row]
-        cell.textLabel?.text = activity.activityName
+        let activity = park.activities[indexPath.row].activityName
+        cell.textLabel?.text = activity
         return cell
     }
 }
