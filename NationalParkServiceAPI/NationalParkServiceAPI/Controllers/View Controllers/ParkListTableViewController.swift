@@ -17,20 +17,15 @@ class ParkListTableViewController: UITableViewController {
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        NetworkController.fetchParks { [weak self] result in
-            switch result {
-            case .success(let parksArray):
-                // All UI updates must happen on main thread of Grand Central Dispatch
-                DispatchQueue.main.async {
-                    self?.parksArray = parks
-                    self.tableView.reloadData()
-                }
-            case .failure(let error):
-                print("There was an error!", error.errorDescription!)
+        NetworkController.fetchParks { parks in
+            guard let parks else {return}
+            // All UI updates must happen on main thread of Grand Central Dispatch
+            DispatchQueue.main.async {
+                self?.parksArray = parks
+                self?.tableView.reloadData()
             }
         }
     }
-    
     
     // MARK: - Table view data source
     
@@ -47,27 +42,16 @@ class ParkListTableViewController: UITableViewController {
         return cell
     }
     
-    
-    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toDetailVC",
-           let destinationVC = segue.destination as? ParkDetailViewController {
-            if let indexPath = tableView.indexPathForSelectedRow {
-                // This is where we get the Park the user tapped on
-                let parkToSend = self.parksArray[indexPath.row]
-                // Fetch individual park
-                NetworkController.fetchSinglePark(with: parkToSend.parkCode){ result in
-                    switch result {
-                    case .success(let park):
-                        DispatchQueue.main.async {
-                            destinationVC.parkData = park
-                        }
-                    case .failure(let error):
-                        print("There was an error!", error.errorDescription!)
-                    }
-                }
-            }
+        guard segue.identifier == "toDetailVC",
+              let destinationVC = segue.destination as? ParkDetailViewController,
+              if let indexPath = tableView.indexPathForSelectedRow else {return}
+        // This is where we get the Park the user tapped on
+        let parkToSend = parksArray[indexPath.row]
+        // Fetch individual park
+        NetworkController.fetchSinglePark(for: parkToSend) { <#Park?#> in
+            <#code#>
         }
     }
     

@@ -7,9 +7,11 @@
 
 import Foundation
 
+/// In NPS API, TLD contains "data": an array of dictionaries, each dictionary containing all data for a single park. Not like Pokemon app where a different URL was required to access individual data. Here it all exists at this endpoint, but using the parkCode in the URL you can filter down to only display data for one and not many
 class Park: Codable {
     let name: String
     let description: String
+    /// parkCode is required in URL to access information for only a single park
     let parkCode: String
     let states: String
     let coordinates: String
@@ -22,6 +24,7 @@ class Park: Codable {
   
     
     // Designated Initializer
+    /// The memberwise initializer required for a class
     init(name: String, description: String, parkCode: String, states: String, coordinates: String, directionsInfo: String, directionsURL: String, entranceFees: [String], images: [String], activities: [String], url: String) {
         self.name = name
         self.description = description
@@ -86,7 +89,7 @@ extension Park {
             tempActivitiesArray.append(name)
             
         }
-        
+        /// Convenience intializers must still call the designated initializer
         self.init(name: name, description: description, parkCode: parkCode, states: states, coordinates: coordinates, directionsInfo: directionsInfo, directionsURL: directionsURL, entranceFees: tempFeesArray, images: tempImagesArray, activities: tempActivitiesArray, url: url)
         
     }
