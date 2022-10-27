@@ -114,7 +114,7 @@ struct NetworkController {
             } catch {
                 completion(.failure(.unableToDecode)); return
             }
-            
+             
             // Resume starts dataTask and continues it. Tasks begin in suspended state.
         }.resume()
     } // End of Network Call 2
