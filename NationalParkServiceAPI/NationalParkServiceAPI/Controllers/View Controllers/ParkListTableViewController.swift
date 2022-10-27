@@ -11,7 +11,7 @@ class ParkListTableViewController: UITableViewController {
     
     
     // Placeholder property
-    var topLevel: Park?
+
     var parksArray: [Park] = []
     
     // MARK: - Lifecycle Methods
@@ -21,14 +21,13 @@ class ParkListTableViewController: UITableViewController {
             guard let parks else {return}
             // All UI updates must happen on main thread of Grand Central Dispatch
             DispatchQueue.main.async {
-                self?.parksArray = parks
-                self?.tableView.reloadData()
+                self.parksArray = parks
+                self.tableView.reloadData()
             }
         }
     }
     
     // MARK: - Table view data source
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return parksArray.count
     }
@@ -38,7 +37,6 @@ class ParkListTableViewController: UITableViewController {
         let park = parksArray[indexPath.row]
         cell.textLabel?.text = "\(park.name)"
         cell.detailTextLabel?.text = "\(park.states)"
-        
         return cell
     }
     
@@ -46,12 +44,16 @@ class ParkListTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "toDetailVC",
               let destinationVC = segue.destination as? ParkDetailViewController,
-              if let indexPath = tableView.indexPathForSelectedRow else {return}
+              let indexPath = tableView.indexPathForSelectedRow else {return}
         // This is where we get the Park the user tapped on
         let parkToSend = parksArray[indexPath.row]
         // Fetch individual park
-        NetworkController.fetchSinglePark(for: parkToSend) { <#Park?#> in
-            <#code#>
+        NetworkController.fetchSinglePark(with: parkToSend.parkCode) { topLevel in
+            guard let unwrappedPark = topLevel else {return}
+            // Send the full park object to the detail screen
+            DispatchQueue.main.async {
+                destinationVC.parkData = unwrappedPark
+            }
         }
     }
     

@@ -77,7 +77,7 @@ struct NetworkController {
     } // End of Network Call
     
     // Network Call to fetch individual park data
-    static func fetchSinglePark(for park: String, completion: @escaping(Park?) -> Void) {
+    static func fetchSinglePark(with parkCode: String, completion: @escaping(Park?) -> Void) {
         // Step 1: Get URL
         // failable initializer has to be unwrapped (guard let)
         guard let baseURL = URL(string: baseURLString) else { completion(nil); return }
@@ -89,7 +89,7 @@ struct NetworkController {
 
         /// Query item
         let apiKeyQuery = URLQueryItem(name: kAPIKeyKey, value: kAPIKeyValue)
-        let parkCodeQuery = URLQueryItem(name: kParkCodeKey, value: park)
+        let parkCodeQuery = URLQueryItem(name: kParkCodeKey, value: parkCode)
         urlComponents?.queryItems = [apiKeyQuery, parkCodeQuery]
         
         guard let finalURL = urlComponents?.url else { completion(nil); return }
