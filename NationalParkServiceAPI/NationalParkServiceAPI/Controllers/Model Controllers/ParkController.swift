@@ -17,13 +17,13 @@ class ParkController {
     static let sharedInstance = ParkController()
     
     // MARK: - SOT
-    private(set) var parks: [String] = []
+    var parks: [Park] = []
     
     
     // Helper Function:
     func toggleFavorite(park: Park) {
         park.isFavorite.toggle()
-//        self.saveStatus()
+        saveStatus()
     }
     
     // MARK: - Save to Persistent Storage
@@ -33,7 +33,7 @@ class ParkController {
         let url = documentsDirectory.appendingPathComponent("NPSParksStatus.json")
         return url
     }
-   
+    
     func saveStatus() {
         guard let saveLocation = fileURL else { return }
         do {
@@ -48,7 +48,7 @@ class ParkController {
         guard let loadLocation = fileURL else { return }
         do {
             let data = try Data(contentsOf: loadLocation)
-            let decodedGroups = try JSONDecoder().decode([String].self, from: data)
+            let decodedGroups = try JSONDecoder().decode([Park].self, from: data)
             self.parks = decodedGroups
         } catch let error {
             print(error)

@@ -10,24 +10,25 @@ import UIKit
 class ParkListTableViewController: UITableViewController {
     
     // MARK: - Outlets
-    @IBOutlet weak var favoriteFilterSwitch: UISwitch!
+    @IBOutlet weak var filterFavoritesSegmentedControl: UISegmentedControl!
     
     // Placeholder property
-    var tempParks: [Park] = []
-    var parkReciever: Park?
+    let parkController = ParkController.sharedInstance?
     
-    private var filterFavorites: [Park]{
-        return favoriteFilterSwitch.isOn ? parkReciever?.filter { $0.isFavorite}
-        ?? [] : parkReciever? ?? []
+    private var filterFavorites: [Park] {
+        if filterFavoritesSegmentedControl.selectedSegmentIndex == 1 {
+            return parkController?.parks.filter { $0.isFavorite } ?? []
+        } else {
+            return parkController?.parks ?? []
+        }
     }
-    
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         NetworkController.fetchParks { parks in
             guard let parks = parks else {return}
             DispatchQueue.main.async {
-                self.tempParks = parks
+                self.parkController = parks
                 self.tableView.reloadData()
             }
         }
@@ -37,12 +38,12 @@ class ParkListTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tempParks.count
+        return parkController.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "parkCell", for: indexPath) as? ParkTableViewCell else {return UITableViewCell()}
-        let park = tempParks[indexPath.row]
+        let park = parkController[indexPath.row]
         cell.updateViews()
         cell.delegate = self
         return cell
@@ -53,7 +54,7 @@ class ParkListTableViewController: UITableViewController {
               let destinationVC = segue.destination as? ParkDetailViewController,
               let indexPath = tableView.indexPathForSelectedRow else {return}
         // This is where we get the Park the user tapped on
-        let parkToSend = tempParks[indexPath.row]
+        let parkToSend = parkController[indexPath.row]
         // Fetch individual park
         NetworkController.fetchSinglePark(for: parkToSend) { park in
             guard let unwrappedPark = park else {return}
@@ -67,8 +68,8 @@ class ParkListTableViewController: UITableViewController {
 extension ParkListTableViewController: ParkTableViewCellDelegate {
     func toggleFavoriteButtonTapped(cell: ParkTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {return}
-        let park = tempParks[indexPath.row]
-        ParkController.toggleFavorite(park: park)
+        let park = parkController[indexPath.row]
+        parkController.toggleFavorite(park: park)
         cell.updateViews()
     }
 }

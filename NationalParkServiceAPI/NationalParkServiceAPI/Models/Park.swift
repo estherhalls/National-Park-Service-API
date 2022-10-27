@@ -85,8 +85,8 @@ extension Park {
             tempActivitiesArray.append(name)
             
         }
-        // equal to true if the array of parks contains a park code
-        let isFavorite = ParkController.sharedInstance.parks.contains(parkCode)
+//        // equal to true if the array of parks contains a park code
+//        let isFavorite = ParkController.sharedInstance.parks.contains(self.parkCode)
         
         self.init(name: name, description: description, parkCode: parkCode, states: states, coordinates: coordinates, directionsInfo: directionsInfo, directionsURL: directionsURL, entranceFees: tempFeesArray, images: tempImagesArray, activities: tempActivitiesArray, url: url, isFavorite: isFavorite)
         
