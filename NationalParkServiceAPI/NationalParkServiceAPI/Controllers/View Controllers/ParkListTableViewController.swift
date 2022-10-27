@@ -20,23 +20,10 @@ class ParkListTableViewController: UITableViewController {
         NetworkController.fetchParks { [weak self] result in
             switch result {
             case .success(let parksArray):
-                self?.topLevel = topLevel
-                self?.
-            }
-            // All UI updates must happen on main thread of Grand Central Dispatch
-            DispatchQueue.main.async {
-                self?.parksArray = parks
-                self.tableView.reloadData()
-            }
-            
-        NetworkController.fetchParks { [weak self]
-            result in
-            switch result {
-            case .success(let topLevel):
-                self?.topLevel = topLevel
-                self?.parksArray = topLevel.data
+                // All UI updates must happen on main thread of Grand Central Dispatch
                 DispatchQueue.main.async {
-                    self?.tableView.reloadData()
+                    self?.parksArray = parks
+                    self.tableView.reloadData()
                 }
             case .failure(let error):
                 print("There was an error!", error.errorDescription!)
@@ -60,7 +47,7 @@ class ParkListTableViewController: UITableViewController {
         return cell
     }
     
- 
+    
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

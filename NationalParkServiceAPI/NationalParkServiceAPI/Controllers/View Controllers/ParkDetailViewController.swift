@@ -20,7 +20,7 @@ class ParkDetailViewController: UIViewController {
     @IBOutlet weak var parkFirstImage: UIImageView!
     @IBOutlet weak var parkActivitiesTableView: UITableView!
     
-    var activities: [ActivitiesList] = []
+    var activities: [Park.activities] = []
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -31,7 +31,7 @@ class ParkDetailViewController: UIViewController {
     
     // Reciever Property
     
-    var parkData: ParkData? {
+    var parkData: Park? {
         didSet {
             updateViews()
         }
@@ -63,7 +63,7 @@ class ParkDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.hasCost()
                     
-                    self?.parkNameLabel.text = park.shortName
+                    self?.parkNameLabel.text = park.name
                     self?.parkCityNameLabel.text = address.city
                     self?.parkStateLabel.text = address.stateCode
                     self?.parkCoordinatesLabel.text = park.coordinates
@@ -80,34 +80,15 @@ class ParkDetailViewController: UIViewController {
         }
     }
     
-    
-    
-    // Found online for displaying image from image URL
-    //    let urlYourURL = URL (string: "home_new.png")
-    //
-    //    avatarImageView.loadurl(url: urlYourURL!)
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 // MARK: - Actions
     /// I want to navigate forward and back based on the current park placement on the index defined on the table view controller
     /// I will need to inform this detail view of that index and current position, and what to do at the beginning and end of index (loop back to beginning? end and stop showing the button for that direction in the index?)
     /// each button will need updateViews function at the end to repopulate with new park data
-    
     @IBAction func previousParkButtonTapped(_ sender: Any) {
-        
     }
     @IBAction func nextParkButtonTapped(_ sender: Any) {
     }
-}
+} // End of Class
 
 // MARK: - Extensions
 extension ParkDetailViewController: UITableViewDataSource, UITableViewDelegate {
