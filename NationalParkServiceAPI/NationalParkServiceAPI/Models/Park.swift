@@ -7,92 +7,90 @@
 
 import Foundation
 
-struct TopLevelDictionary: Decodable {
-    let data: [ParkData]
-}
-
-struct ParkData: Decodable {
-    private enum CodingKeys: String, CodingKey {
-        case fullName
-        case shortName = "name"
-        case parkCode
-        case description
-        case coordinates = "latLong"
-        case activities
-        case entranceFees
-        case addresses
-        case images
-        case url
-        case states
-    }
-    let fullName: String
-    let shortName: String
-    let parkCode: String
+class Park: Codable {
+    let name: String
     let description: String
-    let coordinates: String
-    let activities: [ActivitiesList]
-    let entranceFees: [FeeDetails]
-    let addresses: [ParkAddress]
-    let images: [Image]
-    let url: String
+    let parkCode: String
     let states: String
-}
-
-struct ActivitiesList: Decodable {
-    private enum CodingKeys: String, CodingKey {
-        case activityName = "name"
-    }
-    let activityName: String
-}
-
-struct FeeDetails: Decodable {
-    private enum CodingKeys: String, CodingKey {
-        case cost
-        case feeDescription = "description"
-        case feeTitle = "title"
-    }
-    let cost: String
-    let feeDescription: String
-    let feeTitle: String
-}
-
-struct ParkAddress: Decodable {
-    let city: String
-    let stateCode: String
-
-}
-
-struct Image: Decodable {
-    private enum CodingKeys: String, CodingKey {
-        case imageCredit = "credit"
-        case imageTitle = "title"
-        case imageURL = "url"
-    }
-    let imageCredit: String
-    let imageTitle: String
-    let imageURL: String
-}
+    let coordinates: String
+    let directionsInfo: String
+    let directionsURL: String
+    let entranceFees: [String]
+    let images: [String]
+    let activities: [String]
+    let url: String
+  
     
+    // Designated Initializer
+    init(name: String, description: String, parkCode: String, states: String, coordinates: String, directionsInfo: String, directionsURL: String, entranceFees: [String], images: [String], activities: [String], url: String) {
+        self.name = name
+        self.description = description
+        self.parkCode = parkCode
+        self.states = states
+        self.coordinates = coordinates
+        self.directionsInfo = directionsInfo
+        self.directionsURL = directionsURL
+        self.entranceFees = entranceFees
+        self.images = images
+        self.activities = activities
+        self.url = url
+       
+    }
+    
+} // End of class
 
-
-
-// Found online for displaying image from image URL
-
-//import UIKit
-//extension UIImageView {
-//    func loadurl(url: URL) {
-//        DispatchQueue.global().async { [weak self] in
-//            if let data = try? Data(contentsOf: url) {
-//                if let image = UIImage(data: data) {
-//                    DispatchQueue.main.async {
-//                        self?.image = image
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
-
+extension Park {
+    
+    // Convenience Initializer
+    convenience init?(parkDictionary: [String:Any]) {
+        guard let name = parkDictionary["fullName"] as? String,
+              let description = parkDictionary["description"] as? String,
+              let parkCode = parkDictionary["parkCode"] as? String,
+              let states = parkDictionary["states"] as? String,
+              let coordinates = parkDictionary["latLong"] as? String,
+              let directionsInfo = parkDictionary["directionsInfo"] as? String,
+              let directionsURL = parkDictionary["directionsUrl"] as? String,
+              let url = parkDictionary["url"] as? String,
+              let entranceFeesArray = parkDictionary["entranceFees"] as? [[String:Any]],
+              let imagesArray = parkDictionary["images"] as? [[String:Any]],
+              let activitiesArray = parkDictionary["activities"] as? [[String:Any]] else {
+            return nil }
+        
+        // Entrance Fees:
+        //Temp Array
+        var tempFeesArray: [String] = []
+        // Second Level:
+        for feeDictionary in entranceFeesArray {
+            // Third Level
+            guard let deeperFeeDictionary = feeDictionary["entranceFees"] as? [String:String],
+                  // Fourth Level (this must be broken out with tempArray, then appended
+                  let cost = deeperFeeDictionary["cost"] else {return nil}
+            //            let description = deeperFeeDictionary["description"],
+            //            let title = deeperFeeDictionary["title"] else {return nil}
+            tempFeesArray.append(cost)
+        }
+        
+        // Images Array:
+        var tempImagesArray: [String] = []
+        for imagesDictionary in imagesArray {
+            guard let deeperImagesDictionary = imagesDictionary["images"] as? [String:String],
+                  let imageURL = deeperImagesDictionary["url"] else {return nil}
+            tempImagesArray.append(imageURL)
+        }
+        
+        // Activities Array:
+        var tempActivitiesArray: [String] = []
+        for activitiesDictionary in activitiesArray {
+            guard let deeperActivitiesDictionary = activitiesDictionary["activities"] as? [String:String],
+                  let name = deeperActivitiesDictionary["name"] else {return nil}
+            tempActivitiesArray.append(name)
+            
+        }
+        
+        self.init(name: name, description: description, parkCode: parkCode, states: states, coordinates: coordinates, directionsInfo: directionsInfo, directionsURL: directionsURL, entranceFees: tempFeesArray, images: tempImagesArray, activities: tempActivitiesArray, url: url)
+        
+    }
+}
 /**
  Example of API data from top level:
  

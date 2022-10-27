@@ -11,13 +11,24 @@ class ParkListTableViewController: UITableViewController {
     
     
     // Placeholder property
-    var topLevel: TopLevelDictionary?
-    var parksArray: [ParkData] = []
+    var topLevel: Park?
+    var parksArray: [Park] = []
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        NetworkController.fetchParks { [weak self] result in
+            switch result {
+            case .success(let parksArray):
+                self?.topLevel = topLevel
+                self?.
+            }
+            // All UI updates must happen on main thread of Grand Central Dispatch
+            DispatchQueue.main.async {
+                self?.parksArray = parks
+                self.tableView.reloadData()
+            }
+            
         NetworkController.fetchParks { [weak self]
             result in
             switch result {
@@ -43,7 +54,7 @@ class ParkListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "parkCell", for: indexPath)
         let park = parksArray[indexPath.row]
-        cell.textLabel?.text = "\(park.fullName)"
+        cell.textLabel?.text = "\(park.name)"
         cell.detailTextLabel?.text = "\(park.states)"
         
         return cell

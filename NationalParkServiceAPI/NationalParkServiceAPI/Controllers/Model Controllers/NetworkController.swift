@@ -21,7 +21,7 @@ struct NetworkController {
     private static let kLimitKey = "limit"
     private static let kLimitValue = "500"
     
-    static func fetchParks(completion: @escaping (Result<TopLevelDictionary, ResultError>) -> Void) {
+    static func fetchParks(completion: @escaping (Result<[Park]?, ResultError>) -> Void) {
         // Step 1: Get URL
         guard let baseURL = URL(string: baseURLString) else {
             completion(.failure(.invalidURL(baseURLString)))
@@ -58,19 +58,24 @@ struct NetworkController {
             }
             // Convert to JSON (do,try,catch)
             do {
-                let topLevelDictionary = try JSONDecoder().decode(TopLevelDictionary.self, from: data)
-                completion(.success(topLevelDictionary))
-            } catch {
-                completion(.failure(.unableToDecode)); return
+                guard let topLevelDictionary = try? JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as? [String:Any],
+                      let dataArray = topLevelDictionary["data"] as? [[String:Any]] else {completion(.failure(.unableToDecode)); return}
+                /// Access Data one at a time with for-in loop
+                var tempArray: [Park] = []
+                for dataDictionary in dataArray {
+                    guard let park = Park(parkDictionary:dataDictionary) else {
+                        completion(.failure(.noData)); return }
+                    tempArray.append(park)
+                }
+                // Completion returns an array of parks
+                completion(.success(tempArray))
             }
             // Resume starts dataTask and continues it. Tasks begin in suspended state.
         }.resume()
-    } // End of Network Call 1
+    } // End of Network Call
     
     // Network Call to fetch individual park data
-    // The URL needs to be baseURL+kParksComponent+queryItems(ApiKey,ApiKeyValue)&(parkCodeKey,parkCodeKeyValue) or finalURL from fetchParks plus additional query item within final component of (parkCodeKey,parkCodeKeyValue)
-    /// If I want to use the URL complete with components and query items found in fetchParks function, I would have had to have this constructed outside of both functions. For another time.
-    static func fetchSinglePark(with parkCodeComponent: String, completion: @escaping(Result<ParkData, ResultError>) -> Void) {
+    static func fetchSinglePark(with parkCodeComponent: String, completion: @escaping(Result<Park?, ResultError>) -> Void) {
         // Step 1: Get URL
         // failable initializer has to be unwrapped (guard let)
         guard let baseURL = URL(string: baseURLString) else {
@@ -109,15 +114,16 @@ struct NetworkController {
             }
             // Convert to JSON (do,try,catch)
             do {
-                let park = try JSONDecoder().decode(TopLevelDictionary.self, from: data)
-                completion(.success(park.data[0]))
-            } catch {
-                completion(.failure(.unableToDecode)); return
+                guard let topLevelDictionary = try? JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed) as? [String:Any] else {completion(.failure(.unableToDecode)); return}
+                
+                let parkDetails = Park(parkDictionary: topLevelDictionary)
+                // returns a single park
+                completion(.success(parkDetails))
             }
-             
             // Resume starts dataTask and continues it. Tasks begin in suspended state.
         }.resume()
-    } // End of Network Call 2
+        
+    }// End of Network Call 2
     
 
     
