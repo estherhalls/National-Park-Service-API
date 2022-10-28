@@ -111,9 +111,9 @@ struct NetworkController {
                 return }
             // Convert to JSON (do,try,catch)
             do {
-                guard let topLevelDictionary = try? JSONSerialization.jsonObject(with: parkData, options: .fragmentsAllowed) as? [String:Any] else {completion(nil); return}
+                guard let park = try? JSONSerialization.jsonObject(with: parkData, options: .fragmentsAllowed) as? [String:Any] else {completion(nil); return}
                 
-                let parkDetails = Park(parkDictionary: topLevelDictionary)
+                let parkDetails = Park(parkDictionary: park)
                 // returns a single park
                 completion(parkDetails)
             }

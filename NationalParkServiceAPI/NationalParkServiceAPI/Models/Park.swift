@@ -15,28 +15,23 @@ class Park: Codable {
     let parkCode: String
     let states: String
     let coordinates: String
-    let directionsInfo: String
-    let directionsURL: String
     let entranceFees: [String]
     let images: [String]
     let activities: [String]
-    let url: String
+  
   
     
     // Designated Initializer
     /// The memberwise initializer required for a class
-    init(name: String, description: String, parkCode: String, states: String, coordinates: String, directionsInfo: String, directionsURL: String, entranceFees: [String], images: [String], activities: [String], url: String) {
+    init(name: String, description: String, parkCode: String, states: String, coordinates: String,  entranceFees: [String], images: [String], activities: [String]) {
         self.name = name
         self.description = description
         self.parkCode = parkCode
         self.states = states
         self.coordinates = coordinates
-        self.directionsInfo = directionsInfo
-        self.directionsURL = directionsURL
         self.entranceFees = entranceFees
         self.images = images
         self.activities = activities
-        self.url = url
        
     }
     
@@ -51,9 +46,6 @@ extension Park {
               let parkCode = parkDictionary["parkCode"] as? String,
               let states = parkDictionary["states"] as? String,
               let coordinates = parkDictionary["latLong"] as? String,
-              let directionsInfo = parkDictionary["directionsInfo"] as? String,
-              let directionsURL = parkDictionary["directionsUrl"] as? String,
-              let url = parkDictionary["url"] as? String,
               let entranceFeesArray = parkDictionary["entranceFees"] as? [[String:Any]],
               let imagesArray = parkDictionary["images"] as? [[String:Any]],
               let activitiesArray = parkDictionary["activities"] as? [[String:Any]] else {
@@ -90,7 +82,7 @@ extension Park {
             
         }
         /// Convenience intializers must still call the designated initializer
-        self.init(name: name, description: description, parkCode: parkCode, states: states, coordinates: coordinates, directionsInfo: directionsInfo, directionsURL: directionsURL, entranceFees: tempFeesArray, images: tempImagesArray, activities: tempActivitiesArray, url: url)
+        self.init(name: name, description: description, parkCode: parkCode, states: states, coordinates: coordinates, entranceFees: tempFeesArray, images: tempImagesArray, activities: tempActivitiesArray)
         
     }
 }

@@ -17,12 +17,12 @@ class ParkListTableViewController: UITableViewController {
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        NetworkController.fetchParks { parks in
+        NetworkController.fetchParks { [weak self] parks in
             guard let parks else {return}
             // All UI updates must happen on main thread of Grand Central Dispatch
             DispatchQueue.main.async {
-                self.parksArray = parks
-                self.tableView.reloadData()
+                self?.parksArray = parks
+                self?.tableView.reloadData()
             }
         }
     }
@@ -35,8 +35,8 @@ class ParkListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "parkCell", for: indexPath)
         let park = parksArray[indexPath.row]
-        cell.textLabel?.text = "\(park.name)"
-        cell.detailTextLabel?.text = "\(park.states)"
+        cell.textLabel?.text = park.name
+        cell.detailTextLabel?.text = park.states
         return cell
     }
     
