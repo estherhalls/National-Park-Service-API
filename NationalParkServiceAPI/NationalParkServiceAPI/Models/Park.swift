@@ -18,12 +18,14 @@ class Park: Codable {
     let entranceFees: [String]
     let images: [String]
     let activities: [String]
+    let parkShortName: String
+    
   
   
     
     // Designated Initializer
     /// The memberwise initializer required for a class
-    init(name: String, description: String, parkCode: String, states: String, coordinates: String,  entranceFees: [String], images: [String], activities: [String]) {
+    init(name: String, description: String, parkCode: String, states: String, coordinates: String,  entranceFees: [String], images: [String], activities: [String], parkShortName: String) {
         self.name = name
         self.description = description
         self.parkCode = parkCode
@@ -32,6 +34,7 @@ class Park: Codable {
         self.entranceFees = entranceFees
         self.images = images
         self.activities = activities
+        self.parkShortName = parkShortName
        
     }
     
@@ -46,6 +49,7 @@ extension Park {
               let parkCode = parkDictionary["parkCode"] as? String,
               let states = parkDictionary["states"] as? String,
               let coordinates = parkDictionary["latLong"] as? String,
+              let shortName = parkDictionary["name"] as? String,
               let entranceFeesArray = parkDictionary["entranceFees"] as? [[String:String]],
               let imagesArray = parkDictionary["images"] as? [[String:String]],
               let activitiesArray = parkDictionary["activities"] as? [[String:String]] else {
@@ -78,7 +82,7 @@ extension Park {
         }
         
         /// Convenience intializers must still call the designated initializer
-        self.init(name: name, description: description, parkCode: parkCode, states: states, coordinates: coordinates, entranceFees: tempFeesArray, images: tempImagesArray, activities: tempActivitiesArray)
+        self.init(name: name, description: description, parkCode: parkCode, states: states, coordinates: coordinates, entranceFees: tempFeesArray, images: tempImagesArray, activities: tempActivitiesArray, parkShortName: shortName)
         
     }
 }

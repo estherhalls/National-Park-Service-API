@@ -124,7 +124,7 @@ struct NetworkController {
     
     // Getting images from the internet requires network call with completion handler
     /// Remember to Import UIKit at top of file
-    func fetchImage(for imageURL: String, completion: @escaping (UIImage?) -> Void) {
+   static func fetchImage(for imageURL: String, completion: @escaping (UIImage?) -> Void) {
         // Step 1 - Construct URL
         guard let url = URL(string: imageURL) else {completion(nil); return}
         

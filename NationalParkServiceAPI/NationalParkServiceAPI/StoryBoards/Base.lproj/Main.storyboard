@@ -67,34 +67,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="B3I-me-Cbj">
-                                <rect key="frame" x="112.33333333333333" y="99" width="165.33333333333337" height="66.666666666666686"/>
+                                <rect key="frame" x="136" y="117.33333333333333" width="118.33333333333331" height="48.333333333333329"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Park Name)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9H-2m-Ybu">
-                                        <rect key="frame" x="23.666666666666679" y="0.0" width="118.33333333333331" height="26.333333333333332"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="118.33333333333333" height="26.333333333333332"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="EpQ-Nj-fPY">
-                                        <rect key="frame" x="0.0" y="30.333333333333343" width="165.33333333333334" height="18"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Park City Label)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mdS-yM-DvS">
-                                                <rect key="frame" x="0.0" y="0.0" width="114" height="18"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(State)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lQ4-BT-aic">
-                                                <rect key="frame" x="118.00000000000001" y="0.0" width="47.333333333333329" height="18"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Coordinates)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aMK-6p-xpi">
-                                        <rect key="frame" x="49.666666666666679" y="52.333333333333343" width="66.333333333333314" height="14.333333333333329"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="12"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Coordinates)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mdS-yM-DvS">
+                                        <rect key="frame" x="12" y="30.333333333333329" width="94.333333333333329" height="18"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -225,14 +208,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="b6W-jN-t7g"/>
                     <connections>
-                        <outlet property="entranceFeeLabel" destination="a60-s3-siN" id="5eO-Je-JPP"/>
-                        <outlet property="parkActivitiesTableView" destination="guq-VE-oPI" id="uWx-Et-55i"/>
-                        <outlet property="parkCityNameLabel" destination="mdS-yM-DvS" id="61W-KQ-vEV"/>
-                        <outlet property="parkCoordinatesLabel" destination="aMK-6p-xpi" id="IwW-kH-ojq"/>
-                        <outlet property="parkDescriptionTextView" destination="bFm-k7-I52" id="WAG-NY-O1f"/>
-                        <outlet property="parkFirstImage" destination="UY0-8c-0rc" id="hUD-qt-sdS"/>
-                        <outlet property="parkNameLabel" destination="p9H-2m-Ybu" id="A0f-Up-ykh"/>
-                        <outlet property="parkStateLabel" destination="lQ4-BT-aic" id="g3G-SM-a94"/>
+                        <outlet property="parkActivitiesTableView" destination="guq-VE-oPI" id="VK5-hw-ibi"/>
+                        <outlet property="parkCoordinatesLabel" destination="mdS-yM-DvS" id="5cO-yY-7AA"/>
+                        <outlet property="parkCostLabel" destination="a60-s3-siN" id="ie7-eW-b32"/>
+                        <outlet property="parkDescriptionTextView" destination="bFm-k7-I52" id="H6M-II-lE2"/>
+                        <outlet property="parkFirstImageImageView" destination="UY0-8c-0rc" id="jeq-Ej-bBS"/>
+                        <outlet property="parkShortNameLabel" destination="p9H-2m-Ybu" id="zbh-2T-7QA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mXl-1b-sBE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
