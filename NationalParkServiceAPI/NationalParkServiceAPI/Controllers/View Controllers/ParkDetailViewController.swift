@@ -22,10 +22,11 @@ class ParkDetailViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        parkActivitiesTableView.dataSource = self
-        //        parkActivitiesTableView.delegate = self
+                parkActivitiesTableView.dataSource = self
+                parkActivitiesTableView.delegate = self
     }
-    
+    // MARK: - Properties
+  
     // Reciever Property
     var parkData: Park? {
         didSet {
@@ -58,7 +59,8 @@ class ParkDetailViewController: UIViewController {
                 self?.parkCoordinatesLabel.text = park.coordinates
                 self?.parkDescriptionTextView.text = park.description
                 self?.parkFirstImageImageView.image = image
-                
+             
+                self?.parkActivitiesTableView.reloadData()
             }
         }
     }
@@ -74,16 +76,16 @@ class ParkDetailViewController: UIViewController {
 } // End of Class
 
 //// MARK: - Extensions
-//extension ParkDetailViewController: UITableViewDataSource, UITableViewDelegate {
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return activities.count
-//    }
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "activityCell", for: indexPath)
-//        let activity = activities[indexPath.row].activityName
-//        cell.textLabel?.text = activity
-//        return cell
-//    }
-//}
+extension ParkDetailViewController: UITableViewDataSource, UITableViewDelegate {
+   
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return parkData?.activities.count ?? 0
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: "activityCell", for: indexPath)
+        let activity = parkData?.activities[indexPath.row]
+        cell.textLabel?.text = activity
+        return cell
+    }
+}

@@ -11,7 +11,7 @@ class ParkListTableViewController: UITableViewController {
     
     
     // Placeholder property
-
+    var park: Park?
     var parksArray: [Park] = []
     
     // MARK: - Lifecycle Methods
@@ -42,17 +42,19 @@ class ParkListTableViewController: UITableViewController {
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "toDetailVC",
-              let destinationVC = segue.destination as? ParkDetailViewController,
-              let indexPath = tableView.indexPathForSelectedRow else {return}
-        // This is where we get the Park the user tapped on
-        let parkToSend = parksArray[indexPath.row]
-        // Fetch individual park
-        NetworkController.fetchSinglePark(with: parkToSend.parkCode) { topLevel in
-            guard let unwrappedPark = topLevel else {return}
-            // Send the full park object to the detail screen
-            DispatchQueue.main.async {
-                destinationVC.parkData = unwrappedPark
+        if segue.identifier == "toDetailVC",
+           let destinationVC = segue.destination as? ParkDetailViewController {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                // This is where we get the Park the user tapped on
+                let parkToSend = self.parksArray[indexPath.row]
+                // Fetch individual park
+                NetworkController.fetchSinglePark(with: parkToSend.parkCode) { singlePark in
+                    guard let singlePark else {return}
+                    // Send the full park object to the detail screen
+                    DispatchQueue.main.async {
+                        destinationVC.parkData = singlePark
+                    }
+                }
             }
         }
     }
