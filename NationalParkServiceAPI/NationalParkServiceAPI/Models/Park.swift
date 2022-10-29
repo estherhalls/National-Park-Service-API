@@ -46,46 +46,50 @@ extension Park {
               let parkCode = parkDictionary["parkCode"] as? String,
               let states = parkDictionary["states"] as? String,
               let coordinates = parkDictionary["latLong"] as? String,
-              let entranceFeesArray = parkDictionary["entranceFees"] as? [[String:Any]],
-              let imagesArray = parkDictionary["images"] as? [[String:Any]],
-              let activitiesArray = parkDictionary["activities"] as? [[String:Any]] else {
+              let entranceFeesArray = parkDictionary["entranceFees"] as? [[String:String]],
+              let imagesArray = parkDictionary["images"] as? [[String:String]],
+              let activitiesArray = parkDictionary["activities"] as? [[String:String]] else {
             return nil }
         
         // Entrance Fees:
-        //Temp Array
+        // Temp Array
         var tempFeesArray: [String] = []
         // Second Level:
+        /// if the dictionary is in an array, it needs a for-in loop
         for feeDictionary in entranceFeesArray {
-            // Third Level
-            guard let deeperFeeDictionary = feeDictionary["entranceFees"] as? [String:String],
-                  // Fourth Level (this must be broken out with tempArray, then appended
-                  let cost = deeperFeeDictionary["cost"] else {return nil}
-            //            let description = deeperFeeDictionary["description"],
-            //            let title = deeperFeeDictionary["title"] else {return nil}
-            tempFeesArray.append(cost)
+            // Third Level:
+            guard let parkCost = feeDictionary["cost"] else {return nil}
+            /// Break the string out of the for-in loop by appending to array
+            tempFeesArray.append(parkCost)
         }
-        
+
         // Images Array:
         var tempImagesArray: [String] = []
-        for imagesDictionary in imagesArray {
-            guard let deeperImagesDictionary = imagesDictionary["images"] as? [String:String],
-                  let imageURL = deeperImagesDictionary["url"] else {return nil}
+        for imageDictionary in imagesArray {
+            guard let imageURL = imageDictionary["url"] else {return nil}
             tempImagesArray.append(imageURL)
         }
         
         // Activities Array:
         var tempActivitiesArray: [String] = []
-        for activitiesDictionary in activitiesArray {
-            guard let deeperActivitiesDictionary = activitiesDictionary["activities"] as? [String:String],
-                  let name = deeperActivitiesDictionary["name"] else {return nil}
-            tempActivitiesArray.append(name)
-            
+        for activityDictionary in activitiesArray {
+            guard let activityName = activityDictionary["name"] else {return nil}
+            tempActivitiesArray.append(activityName)
         }
+        
         /// Convenience intializers must still call the designated initializer
         self.init(name: name, description: description, parkCode: parkCode, states: states, coordinates: coordinates, entranceFees: tempFeesArray, images: tempImagesArray, activities: tempActivitiesArray)
         
     }
 }
+
+//{
+//    "abilities": [
+//        {
+//            "ability": {
+//                "name": "overgrow",
+//                "url": "https://pokeapi.co/api/v2/ability/65/"
+//            },
 /**
  Example of API data from top level:
  
